@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xianyi.mapper.FriendMapper">
+
+<!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.xianyi.entity.Friend">
+        <result column="ffid" property="ffid"/>
+        <result column="userid" property="userid"/>
+        <result column="friendid" property="friendid"/>
+    </resultMap>
+
+<!--auto generated Code-->
+    <sql id="all_column">
+        ffid,
+        userid,
+        friendid
+    </sql>
+
+<!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO friend
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.ffid != null"> ffid, </if>
+            <if test="pojo.userid != null"> userid, </if>
+            <if test="pojo.friendid != null"> friendid, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.ffid != null"> #{pojo.ffid}, </if>
+            <if test="pojo.userid != null"> #{pojo.userid}, </if>
+            <if test="pojo.friendid != null"> #{pojo.friendid}, </if>
+        </trim>
+    </insert>
+
+<!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO friend(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.ffid},
+            #{pojo.userid},
+            #{pojo.friendid}
+            )
+        </foreach>
+    </insert>
+
+<!--auto generated Code-->
+    <update id="update">
+        UPDATE friend
+        <set>
+            <if test="pojo.ffid != null"> ffid = #{pojo.ffid}, </if>
+            <if test="pojo.userid != null"> userid = #{pojo.userid}, </if>
+            <if test="pojo.friendid != null"> friendid = #{pojo.friendid} </if>
+        </set>
+         WHERE id = #{pojo.id}
+    </update>
+
+<!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM friend
+        <where>
+            <if test="pojo.ffid != null"> AND ffid = #{pojo.ffid} </if>
+            <if test="pojo.userid != null"> AND userid = #{pojo.userid} </if>
+            <if test="pojo.friendid != null"> AND friendid = #{pojo.friendid} </if>
+        </where>
+        LIMIT 10000 
+    </select>
+
+<!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM friend where id = #{pojo.id}
+    </delete>
+    <resultMap type="User" id="ffuser">
+
+        <id property="userid" column="userid"/>
+
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="qq" column="qq"/>
+
+        <result property="photo" column="photo"/>
+        <result property="rank" column="rank"/>
+        <result property="score" column="score"/>
+        <result property="gender" column="gender"/>
+        <result property="regtime" column="regtime"/>
+    </resultMap>
+    <resultMap id="findFriendListByuserid" type="Friend">
+        <id property="ffid" column="ffid"/>
+
+        <result property="userid" column="userid"/>
+        <result property="friendid" column="friendid"/>
+        <collection property="userlist" javaType="User" ofType="User" column="friendid"
+                    select="friendlist">
+
+        </collection>
+
+    </resultMap>
+
+    <select id="findfriend"  parameterType="int" resultMap="findFriendListByuserid">
+        SELECT * FROM friend
+        WHERE userid=#{userid}
+    </select>
+    <select id="friendlist" parameterType="int" resultMap="ffuser">
+        SELECT * FROM user
+        <where>
+            userid=#{userid}
+        </where>
+    </select>
+</mapper>

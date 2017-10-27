@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xianyi.mapper.ShareMapper">
+
+<!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.xianyi.entity.Share">
+        <result column="shareid" property="shareid"/>
+        <result column="sharename" property="sharename"/>
+        <result column="content" property="content"/>
+        <result column="address" property="Address"/>
+        <result column="photo" property="photo"/>
+        <result column="userid" property="userid"/>
+        <result column="addtime" property="addtime"/>
+        <result column="likecount" property="likecount"/>
+    </resultMap>
+
+<!--auto generated Code-->
+    <sql id="all_column">
+        shareid,
+        sharename,
+        content,
+        address,
+        photo,
+        userid,
+        addtime,
+        likecount
+    </sql>
+
+<!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO share
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.shareid != null"> shareid, </if>
+            <if test="pojo.sharename != null"> sharename, </if>
+            <if test="pojo.content != null"> content, </if>
+            <if test="pojo.Address != null"> address, </if>
+            <if test="pojo.photo != null"> photo, </if>
+            <if test="pojo.userid != null"> userid, </if>
+            <if test="pojo.addtime != null"> addtime, </if>
+            <if test="pojo.likecount != null"> likecount, </if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pojo.shareid != null"> #{pojo.shareid}, </if>
+            <if test="pojo.sharename != null"> #{pojo.sharename}, </if>
+            <if test="pojo.content != null"> #{pojo.content}, </if>
+            <if test="pojo.Address != null"> #{pojo.Address}, </if>
+            <if test="pojo.photo != null"> #{pojo.photo}, </if>
+            <if test="pojo.userid != null"> #{pojo.userid}, </if>
+            <if test="pojo.addtime != null"> #{pojo.addtime}, </if>
+            <if test="pojo.likecount != null"> #{pojo.likecount}, </if>
+        </trim>
+    </insert>
+
+<!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO share(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (
+            #{pojo.shareid},
+            #{pojo.sharename},
+            #{pojo.content},
+            #{pojo.Address},
+            #{pojo.photo},
+            #{pojo.userid},
+            #{pojo.addtime},
+            #{pojo.likecount}
+            )
+        </foreach>
+    </insert>
+
+<!--auto generated Code-->
+    <update id="update">
+        UPDATE share
+        <set>
+            <if test="pojo.shareid != null"> shareid = #{pojo.shareid}, </if>
+            <if test="pojo.sharename != null"> sharename = #{pojo.sharename}, </if>
+            <if test="pojo.content != null"> content = #{pojo.content}, </if>
+            <if test="pojo.Address != null"> address = #{pojo.Address}, </if>
+            <if test="pojo.photo != null"> photo = #{pojo.photo}, </if>
+            <if test="pojo.userid != null"> userid = #{pojo.userid}, </if>
+            <if test="pojo.addtime != null"> addtime = #{pojo.addtime}, </if>
+            <if test="pojo.likecount != null"> likecount = #{pojo.likecount} </if>
+        </set>
+         WHERE id = #{pojo.id}
+    </update>
+
+<!--auto generated Code-->
+    <select id="select" resultMap="AllColumnMap">
+        SELECT <include refid="all_column"/>
+        FROM share
+        <!--<where>-->
+            <!--<if test="pojo.shareid != null"> AND shareid = #{pojo.shareid} </if>-->
+            <!--<if test="pojo.sharename != null"> AND sharename = #{pojo.sharename} </if>-->
+            <!--<if test="pojo.content != null"> AND content = #{pojo.content} </if>-->
+            <!--<if test="pojo.Address != null"> AND address = #{pojo.Address} </if>-->
+            <!--<if test="pojo.photo != null"> AND photo = #{pojo.photo} </if>-->
+            <!--<if test="pojo.userid != null"> AND userid = #{pojo.userid} </if>-->
+            <!--<if test="pojo.addtime != null"> AND addtime = #{pojo.addtime} </if>-->
+            <!--<if test="pojo.likecount != null"> AND likecount = #{pojo.likecount} </if>-->
+        <!--</where>-->
+        <!--LIMIT 10000 -->
+    </select>
+
+<!--auto generated Code-->
+    <delete id="delete">
+        DELETE FROM share where id = #{pojo.id}
+    </delete>
+<!--只查询share表-->
+    <select id="findsharebyuserid" resultMap="AllColumnMap" parameterType="int">
+        SELECT * FROM share
+        <where>
+            userid=#{userid}
+        </where>
+    </select>
+
+    <resultMap id="shareanduser" type="Share">
+        <result column="shareid" property="shareid"/>
+        <result column="sharename" property="sharename"/>
+        <result column="content" property="content"/>
+        <result column="address" property="Address"/>
+        <result column="photo" property="photo"/>
+        <result column="userid" property="userid"/>
+        <result column="addtime" property="addtime"/>
+        <result column="likecount" property="likecount"/>
+        <association property="user" javaType="User" column="userid">
+            <id property="userid" column="userid"/>
+
+            <result property="username" column="username"/>
+            <result property="password" column="password"/>
+            <result property="qq" column="qq"/>
+
+            <result property="photo" column="photo"/>
+            <result property="rank" column="rank"/>
+            <result property="score" column="score"/>
+            <result property="gender" column="gender"/>
+            <result property="regtime" column="regtime"/>
+        </association>
+    </resultMap>
+    <!--share和user根据用户联合查询-->
+    <select id="findallsharebyuserid" resultMap="shareanduser" parameterType="int">
+        select * from share s,user u WHERE s.userid=u.userid and s.userid=#{userid};
+    </select>
+    <!--share和uer全部联合查询-->
+    <select id="findallshareuser" resultMap="shareanduser">
+        select * from share s,user u WHERE s.userid=u.userid;
+    </select>
+</mapper>
