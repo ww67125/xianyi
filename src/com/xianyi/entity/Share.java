@@ -6,7 +6,7 @@ public class Share {
     private Integer shareid;
     private String sharename;
     private String content;
-    private String Address;
+    private String address;
     private String photo;
     private Integer userid;
     private Date addtime;
@@ -54,11 +54,11 @@ public class Share {
     }
 
     public String getAddress() {
-        return Address;
+        return address;
     }
 
     public void setAddress(String address) {
-        Address = address;
+        this.address = address;
     }
 
     public String getPhoto() {
@@ -91,7 +91,7 @@ public class Share {
                 "shareid=" + shareid +
                 ", sharename='" + sharename + '\'' +
                 ", content='" + content + '\'' +
-                ", Address='" + Address + '\'' +
+                ", Address='" + address + '\'' +
                 ", photo='" + photo + '\'' +
                 ", userid=" + userid +
                 ", addtime=" + addtime +

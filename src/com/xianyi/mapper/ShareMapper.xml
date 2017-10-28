@@ -7,7 +7,7 @@
         <result column="shareid" property="shareid"/>
         <result column="sharename" property="sharename"/>
         <result column="content" property="content"/>
-        <result column="address" property="Address"/>
+        <result column="address" property="address"/>
         <result column="photo" property="photo"/>
         <result column="userid" property="userid"/>
         <result column="addtime" property="addtime"/>
@@ -33,7 +33,7 @@
             <if test="pojo.shareid != null"> shareid, </if>
             <if test="pojo.sharename != null"> sharename, </if>
             <if test="pojo.content != null"> content, </if>
-            <if test="pojo.Address != null"> address, </if>
+            <if test="pojo.address != null"> address, </if>
             <if test="pojo.photo != null"> photo, </if>
             <if test="pojo.userid != null"> userid, </if>
             <if test="pojo.addtime != null"> addtime, </if>
@@ -44,7 +44,7 @@
             <if test="pojo.shareid != null"> #{pojo.shareid}, </if>
             <if test="pojo.sharename != null"> #{pojo.sharename}, </if>
             <if test="pojo.content != null"> #{pojo.content}, </if>
-            <if test="pojo.Address != null"> #{pojo.Address}, </if>
+            <if test="pojo.address != null"> #{pojo.address}, </if>
             <if test="pojo.photo != null"> #{pojo.photo}, </if>
             <if test="pojo.userid != null"> #{pojo.userid}, </if>
             <if test="pojo.addtime != null"> #{pojo.addtime}, </if>
@@ -78,7 +78,7 @@
             <if test="pojo.shareid != null"> shareid = #{pojo.shareid}, </if>
             <if test="pojo.sharename != null"> sharename = #{pojo.sharename}, </if>
             <if test="pojo.content != null"> content = #{pojo.content}, </if>
-            <if test="pojo.Address != null"> address = #{pojo.Address}, </if>
+            <if test="pojo.address != null"> address = #{pojo.address}, </if>
             <if test="pojo.photo != null"> photo = #{pojo.photo}, </if>
             <if test="pojo.userid != null"> userid = #{pojo.userid}, </if>
             <if test="pojo.addtime != null"> addtime = #{pojo.addtime}, </if>
@@ -95,7 +95,7 @@
             <!--<if test="pojo.shareid != null"> AND shareid = #{pojo.shareid} </if>-->
             <!--<if test="pojo.sharename != null"> AND sharename = #{pojo.sharename} </if>-->
             <!--<if test="pojo.content != null"> AND content = #{pojo.content} </if>-->
-            <!--<if test="pojo.Address != null"> AND address = #{pojo.Address} </if>-->
+            <!--<if test="pojo.address != null"> AND address = #{pojo.address} </if>-->
             <!--<if test="pojo.photo != null"> AND photo = #{pojo.photo} </if>-->
             <!--<if test="pojo.userid != null"> AND userid = #{pojo.userid} </if>-->
             <!--<if test="pojo.addtime != null"> AND addtime = #{pojo.addtime} </if>-->
@@ -120,7 +120,7 @@
         <result column="shareid" property="shareid"/>
         <result column="sharename" property="sharename"/>
         <result column="content" property="content"/>
-        <result column="address" property="Address"/>
+        <result column="address" property="address"/>
         <result column="photo" property="photo"/>
         <result column="userid" property="userid"/>
         <result column="addtime" property="addtime"/>
