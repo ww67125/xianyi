@@ -5,9 +5,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="user/css/reset.css">
-<link rel="stylesheet" href="user/css/supersized.css">
-<link rel="stylesheet" href="user/css/style.css">
+<link rel="stylesheet" href="css/reset.css"/>
+<link rel="stylesheet" href="css/supersized.css"/>
+<link rel="stylesheet" href="css/style.css"/>
+
+
+	<link rel="stylesheet" href="user/css/reset.css">
+	<link rel="stylesheet" href="user/css/supersized.css">
+	<link rel="stylesheet" href="user/css/style.css">
+
 
 </head>
 <body>
@@ -18,7 +24,7 @@
 			<input type="text" name="username" class="username" placeholder="Username" />
 			<input type="password" name="password" class="password" placeholder="Password" />
 			<button type="submit">登录</button>
-			<button type="button"><a href="user_register">注册</a></button>
+			<button type="button"><a href="/user/user_register.jsp">注册</a></button>
 			
 			<div class="error">
 				<span>+</span>
@@ -27,11 +33,15 @@
 	</div>
 
 	<!-- Javascript -->
+	<script src="js/jquery-1.8.2.min.js"></script>
+	<script src="js/supersized.3.2.7.min.js"></script>
+	<script src="js/supersized-init2.js"></script>
+	<script src="js/scripts.js"></script>
+
 	<script src="user/js/jquery-1.8.2.min.js"></script>
 	<script src="user/js/supersized.3.2.7.min.js"></script>
 	<script src="user/js/supersized-init.js"></script>
 	<script src="user/js/scripts.js"></script>
-
 
 
 

@@ -20,16 +20,16 @@ public class ShareController {
     private ShareService shareService;
     @RequestMapping("addshare")
     public String addshare(Share share){
-
+        share.setAddtime(new Date());
         shareService.insert(share);
-        return "index";
+        return "redirect:/showall";
     }
     @RequestMapping("showall")
     public String showallshare(HttpServletRequest request){
         List<Share> shares=new ArrayList<>();
         shares=shareService.findallshareuser();
         request.setAttribute("shares",shares);
-        return "index";
+        return "shareblock";
     }
     @RequestMapping("usershare")
     public String showusershare(Integer userid,HttpServletRequest request){

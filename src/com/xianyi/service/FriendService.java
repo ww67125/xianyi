@@ -14,6 +14,7 @@ public class FriendService {
     @Resource
     private FriendMapper friendMapper;
 
+
     public int insert(Friend pojo){
         return friendMapper.insert(pojo);
     }
@@ -29,7 +30,7 @@ public class FriendService {
     public int update(Friend pojo){
         return friendMapper.update(pojo);
     }
-    @Transactional
+
     public List<Friend> findfriend(int userid){
         return friendMapper.findfriend(userid);
     }

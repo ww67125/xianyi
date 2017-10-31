@@ -21,19 +21,14 @@ public class TaskController {
         tasks=taskService.findalltask();
         session.setAttribute("tasks",tasks);
         System.out.println("---------------------"+tasks+"---------------");
-        return "index";
+        return "task";
     }
     @RequestMapping("addtask")
-    public String addttask(){
-        Task task=new Task();
-        task.setTaskname("test");
-        task.setSendid(1);
-        task.setTaskscore(10);
+    public String addttask(Task task){
         task.setAddtime(new Date());
         task.setState(1);
-        task.setAcceptid(2);
         taskService.insert(task);
-        return "index";
+        return "redirect:/showtask";
     }
 
 

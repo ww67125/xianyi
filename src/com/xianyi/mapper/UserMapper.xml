@@ -5,9 +5,57 @@
 
 <mapper namespace="com.xianyi.mapper.UserMapper">
 
+
+	<select id="findUserByuserid" parameterType="User" resultType="User">
+		select * from user where userid=#{userid}
+	</select>
+
 	<!-- 根据用户名和密码查找用户 -->
 	<select id="findUser" parameterType="User" resultType="User">
 		 select * from user where username = #{username} and password = #{password}
 	</select>
+
+	<insert id="insertUser" parameterType="User">
+		insert  into user(username,password,gender,qq,regtime) values(#{username},#{password},#{gender},#{qq},#{regtime})
+	</insert>
+
+	<update id="updateUser" parameterType="User">
+		update user set 1=1
+		<if test="#{username}!=''">
+			,username = #{username}
+		</if>
+		<if test="#{password}!=''">
+			,password = #{password}
+		</if>
+		<if test="#{gender}!=''">
+			,gender = #{gender}
+		</if>
+		<if test="#{qq}!=''">
+			,qq = #{qq}
+		</if>
+		<if test="#{photo}!=''">
+			,photo = #{photo}
+		</if>
+		<if test="#{rank}!=''">
+			,rank = #{rank}
+		</if>
+		<if test="#{score}!=''">
+			,score = #{score}
+		</if>
+		where userid = #{userid}
+
+
+	</update>
+
+	<!-- 查询重名 -->
+	<select id="checkUsername" parameterType="String" resultType="User">
+		select * from user where username = #{username}
+	</select>
+
+
+	<select id="findUserByGender" parameterType="String" resultType="User">
+		select * from user where gender = #{gender}
+	</select>
+
 
 </mapper>
