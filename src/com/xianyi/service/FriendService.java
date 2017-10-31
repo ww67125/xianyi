@@ -34,4 +34,7 @@ public class FriendService {
     public List<Friend> findfriend(int userid){
         return friendMapper.findfriend(userid);
     }
+    public boolean deletefriend(int ffid){
+        return  friendMapper.delete(ffid);
+    }
 }

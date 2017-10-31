@@ -20,15 +20,23 @@ public class TaskService {
         return taskMapper.insertList(pojos);
     }
 
-    public List<Task> select(Task pojo){
-        return taskMapper.select(pojo);
+    public Task selectbytaskid(int taskid){
+        return taskMapper.selectbytaskid(taskid);
     }
 
     public int update(Task pojo){
         return taskMapper.update(pojo);
     }
+    public boolean delete(int taskid){
+        return taskMapper.delete(taskid);
+    }
     public List<Task> findalltask(){
         return taskMapper.findalltask();
     }
-
+    public List<Task> findtaskbysendid(int sendid){
+        return taskMapper.findtaskbysendid(sendid);
+    }
+    public List<Task> findtaskbyacceptid(int acceptid){
+        return taskMapper.findtaskbyacceptid(acceptid);
+    }
 }

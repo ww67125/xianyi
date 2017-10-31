@@ -70,8 +70,8 @@
     </select>
 
 <!--auto generated Code-->
-    <delete id="delete">
-        DELETE FROM friend where id = #{pojo.id}
+    <delete id="delete" parameterType="int">
+        DELETE FROM friend where ffid=#{ffid}
     </delete>
     <resultMap type="User" id="ffuser">
 

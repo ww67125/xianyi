@@ -214,31 +214,26 @@ public class UserController {
 			}
 		}
 
-		return "redirect:user_reMessage.jsp";
+		return "redirect:user_information.jsp";
 	}
 
 	@RequestMapping("/userinformation")
 	public String userinfomation(HttpSession session, HttpServletRequest request){
 
 		User user = (User) session.getAttribute("user");
-		List<Friend> pfriendList  = friendService.findfriend(user.getUserid());
-		List<User> friendList = new ArrayList<>();
-		for (int i=0;i<pfriendList.size();i++){
-			Friend friend = pfriendList.get(i);
-			User user4 = new User();
-			user4.setUserid(friend.getUserid());
-			user4 = userService.findUserByuserid(user4);
-			friendList.add(user4);
-		}
+		List<Friend> friendList = new ArrayList<>();
+		friendList=friendService.findfriend(user.getUserid());
 
 		//1
 		request.setAttribute("friendList",friendList);
 
-		Task task = new Task();
-		task.setAcceptid(user.getUserid());
-		List<Task> taskList = taskService.select(task);
+
+		List<Task> taskListse = taskService.findtaskbysendid(user.getUserid());
+
+		List<Task> taskListac = taskService.findtaskbyacceptid(user.getUserid());
 		//2
-		request.setAttribute("taskList",taskList);
+		request.setAttribute("taskListse",taskListse);
+		request.setAttribute("taskListac",taskListac);
 
 		Share share = new Share();
 		share.setShareid(user.getUserid());
@@ -285,8 +280,12 @@ public class UserController {
 		return "/user/user_information";
 
 	}
-
-
+	//删除好友
+	@RequestMapping("deletefriend")
+	public String deletefriend(int ffid){
+		friendService.deletefriend(ffid);
+		return "redirect:/user/userinformation";
+	}
 
 
 

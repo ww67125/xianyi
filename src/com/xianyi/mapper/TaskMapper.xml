@@ -75,7 +75,6 @@
     <update id="update">
         UPDATE task
         <set>
-            <if test="pojo.taskid != null"> taskid = #{pojo.taskid}, </if>
             <if test="pojo.taskname != null"> taskname = #{pojo.taskname}, </if>
             <if test="pojo.taskcontent != null"> taskcontent = #{pojo.taskcontent}, </if>
             <if test="pojo.sendid != null"> sendid = #{pojo.sendid}, </if>
@@ -84,29 +83,19 @@
             <if test="pojo.state != null"> state = #{pojo.state}, </if>
             <if test="pojo.addtime != null"> addtime = #{pojo.addtime} </if>
         </set>
-         WHERE id = #{pojo.id}
+         WHERE taskid = #{pojo.taskid}
     </update>
 
 <!--auto generated Code-->
-    <select id="select" resultMap="AllColumnMap">
-        SELECT <include refid="all_column"/>
-        FROM task
-        <where>
-            <if test="pojo.taskid != null"> AND taskid = #{pojo.taskid} </if>
-            <if test="pojo.taskname != null"> AND taskname = #{pojo.taskname} </if>
-            <if test="pojo.taskcontent != null"> AND taskcontent = #{pojo.taskcontent} </if>
-            <if test="pojo.sendid != null"> AND sendid = #{pojo.sendid} </if>
-            <if test="pojo.acceptid != null"> AND acceptid = #{pojo.acceptid} </if>
-            <if test="pojo.taskscore != null"> AND taskscore = #{pojo.taskscore} </if>
-            <if test="pojo.state != null"> AND state = #{pojo.state} </if>
-            <if test="pojo.addtime != null"> AND addtime = #{pojo.addtime} </if>
-        </where>
+    <select id="selectbytaskid" resultType="Task" parameterType="int">
+        SELECT * FROM task WHERE taskid=#{taskid}
+
         LIMIT 10000 
     </select>
 
 <!--auto generated Code-->
-    <delete id="delete">
-        DELETE FROM task where id = #{pojo.id}
+    <delete id="delete" parameterType="int">
+        DELETE FROM task where taskid = #{taskid}
     </delete>
     <resultMap id="allandsendaccept" type="Task">
         <result column="taskid" property="taskid"/>
@@ -148,6 +137,16 @@
         SELECT t.*, u1.* ,u2.userid as userid1,u2.username as username1 FROM task t join user u1 on t.sendid=u1.userid
                             left join user u2 on t.acceptid=u2.userid
 
+
+    </select>
+    <select id="findtaskbysendid" resultMap="allandsendaccept" parameterType="int">
+        SELECT t.*, u1.* ,u2.userid as userid1,u2.username as username1 FROM task t join user u1 on t.sendid=u1.userid
+                            left join user u2 on t.acceptid=u2.userid WHERE sendid=#{sendid}
+
+    </select>
+    <select id="findtaskbyacceptid" resultMap="allandsendaccept" parameterType="int">
+        SELECT t.*, u1.* ,u2.userid as userid1,u2.username as username1 FROM task t join user u1 on t.sendid=u1.userid
+                            left join user u2 on t.acceptid=u2.userid WHERE acceptid=#{acceptid}
 
     </select>
 </mapper>

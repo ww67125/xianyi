@@ -11,10 +11,12 @@ public interface TaskMapper {
 
     int insertList(@Param("pojos") List<Task> pojo);
 
-    List<Task> select(@Param("pojo") Task pojo);
+    Task selectbytaskid(int taskid);
 
     int update(@Param("pojo") Task pojo);
+    boolean delete(int taskid);
     List<Task> findalltask();
-
+    List<Task> findtaskbysendid(int sendid);
+    List<Task> findtaskbyacceptid(int acceptid);
 
 }

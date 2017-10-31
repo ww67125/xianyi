@@ -14,5 +14,6 @@ public interface FriendMapper {
 
     int update(@Param("pojo") Friend pojo);
     List<Friend> findfriend(int userid);
+    boolean delete(int ffid);
 
 }

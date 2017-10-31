@@ -44,9 +44,7 @@
 ${user.userlist.username}
 <a href="/usershare?userid=${user.userlist.userid}">123</a>
 </c:forEach>--%>
-<a href="/showtask">showtask</a>
 
-${requestScope.shares}
 
 
 <div id="bodyall">
