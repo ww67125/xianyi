@@ -38,6 +38,7 @@
             <if test="pojo.taskscore != null"> taskscore, </if>
             <if test="pojo.state != null"> state, </if>
             <if test="pojo.addtime != null"> addtime, </if>
+            <if test="pojo.finishcontent != null"> finishcontent, </if>
         </trim>
         VALUES
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -49,6 +50,7 @@
             <if test="pojo.taskscore != null"> #{pojo.taskscore}, </if>
             <if test="pojo.state != null"> #{pojo.state}, </if>
             <if test="pojo.addtime != null"> #{pojo.addtime}, </if>
+            <if test="pojo.finishcontent != null"> #{pojo.finishcontent}, </if>
         </trim>
     </insert>
 
@@ -81,11 +83,15 @@
             <if test="pojo.acceptid != null"> acceptid = #{pojo.acceptid}, </if>
             <if test="pojo.taskscore != null"> taskscore = #{pojo.taskscore}, </if>
             <if test="pojo.state != null"> state = #{pojo.state}, </if>
-            <if test="pojo.addtime != null"> addtime = #{pojo.addtime} </if>
+            <if test="pojo.addtime != null"> addtime = #{pojo.addtime},</if>
+            <if test="pojo.finishcontent != null"> finishcontent = #{pojo.finishcontent} </if>
         </set>
          WHERE taskid = #{pojo.taskid}
     </update>
-
+<update id="giveup" parameterType="int">
+    UPDATE task set acceptid=NULL,state=1
+    WHERE taskid = #{taskid}
+</update>
 <!--auto generated Code-->
     <select id="selectbytaskid" resultType="Task" parameterType="int">
         SELECT * FROM task WHERE taskid=#{taskid}
@@ -106,6 +112,7 @@
         <result column="taskscore" property="taskscore"/>
         <result column="state" property="state"/>
         <result column="addtime" property="addtime"/>
+        <result column="finishcontent" property="finishcontent"/>
         <association property="senduser" javaType="User" >
             <id property="userid" column="userid"/>
 

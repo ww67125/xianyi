@@ -6,7 +6,7 @@
 <mapper namespace="com.xianyi.mapper.UserMapper">
 
 
-	<select id="findUserByuserid" parameterType="User" resultType="User">
+	<select id="findUserByuserid" parameterType="int" resultType="User">
 		select * from user where userid=#{userid}
 	</select>
 
@@ -20,29 +20,32 @@
 	</insert>
 
 	<update id="updateUser" parameterType="User">
-		update user set 1=1
-		<if test="#{username}!=''">
-			,username = #{username}
-		</if>
-		<if test="#{password}!=''">
-			,password = #{password}
-		</if>
-		<if test="#{gender}!=''">
-			,gender = #{gender}
-		</if>
-		<if test="#{qq}!=''">
-			,qq = #{qq}
-		</if>
-		<if test="#{photo}!=''">
-			,photo = #{photo}
-		</if>
-		<if test="#{rank}!=''">
-			,rank = #{rank}
-		</if>
-		<if test="#{score}!=''">
-			,score = #{score}
-		</if>
-		where userid = #{userid}
+		update user
+		<set>
+			<if test="pojo.username!=null">
+				username = #{pojo.username},
+			</if>
+			<if test="pojo.password!=null">
+				password = #{pojo.password},
+			</if>
+			<if test="pojo.gender!=null">
+				gender = #{pojo.gender},
+			</if>
+			<if test="pojo.qq!=null">
+				qq = #{pojo.qq},
+			</if>
+			<if test="pojo.photo!=null">
+				photo = #{pojo.photo},
+			</if>
+			<if test="pojo.rank!=null">
+				rank = #{pojo.rank},
+			</if>
+			<if test="pojo.score!=null">
+				score = #{pojo.score}
+			</if>
+		</set>
+
+		where userid = #{pojo.userid}
 
 
 	</update>

@@ -99,7 +99,7 @@ public class UserController {
 			Friend friend = friendList.get(i);
 			User user = new User();
 			user.setUserid(friend.getFriendid());
-			user = userService.findUserByuserid(user);
+			user = userService.findUserByuserid(user.getUserid());
 			userList.add(i, user);
 		}
 		model.addAttribute("userList", userList);
@@ -116,7 +116,7 @@ public class UserController {
 		List<User> userList = new ArrayList<User>();
 		User user = new User();
 		user.setUserid(senderid);
-		user = userService.findUserByuserid(user);
+		user = userService.findUserByuserid(user.getUserid());
 		userList.add(0, user);
 		model.addAttribute("userList", userList);
 		return "/user/user_message";
@@ -161,7 +161,7 @@ public class UserController {
 
 			User user = new User();
 			user.setUserid(message.getSenderid());
-			messageHelper.setUsername(userService.findUserByuserid(user).getUsername());
+			messageHelper.setUsername(userService.findUserByuserid(user.getUserid()).getUsername());
 
 //			System.out.println("+++++++++++"+messageHelper.getUserid());
 //			System.out.println("+++++++++++"+messageHelper.getUsername());
@@ -221,6 +221,8 @@ public class UserController {
 	public String userinfomation(HttpSession session, HttpServletRequest request){
 
 		User user = (User) session.getAttribute("user");
+		user=userService.findUserByuserid(user.getUserid());
+		session.setAttribute("user",user);
 		List<Friend> friendList = new ArrayList<>();
 		friendList=friendService.findfriend(user.getUserid());
 
@@ -265,7 +267,7 @@ public class UserController {
 
 			User user6 = new User();
 			user6.setUserid(message.getSenderid());
-			messageHelper.setUsername(userService.findUserByuserid(user6).getUsername());
+			messageHelper.setUsername(userService.findUserByuserid(user6.getUserid()).getUsername());
 
 			messHelperList.add(messageHelper);
 			if(i==0){
@@ -284,6 +286,17 @@ public class UserController {
 	@RequestMapping("deletefriend")
 	public String deletefriend(int ffid){
 		friendService.deletefriend(ffid);
+		return "redirect:/user/userinformation";
+	}
+	//添加好友
+	@RequestMapping("addfriend")
+	public String addfriend(int friendid,HttpSession session){
+		Friend friend=new Friend();
+		User user=(User)session.getAttribute("user");
+
+		friend.setUserid(user.getUserid());
+		friend.setFriendid(friendid);
+		friendService.insert(friend);
 		return "redirect:/user/userinformation";
 	}
 

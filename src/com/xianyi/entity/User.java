@@ -7,9 +7,9 @@ public class User {
 	private String username;
 	private String password;
 	private String gender;
-	private int qq;
+	private Integer qq;
 	private String photo;
-	private int rank;
+	private Integer rank;
 	private int score;
 	private Date regtime;
 	public Integer getUserid() {
@@ -37,24 +37,30 @@ public class User {
 	public void setGender(String gender) {
 		this.gender = gender;
 	}
-	public int getQq() {
-		return qq;
-	}
-	public void setQq(int qq) {
-		this.qq = qq;
-	}
+
 	public String getPhoto() {
 		return photo;
 	}
 	public void setPhoto(String photo) {
 		this.photo = photo;
 	}
-	public int getRank() {
+
+	public Integer getQq() {
+		return qq;
+	}
+
+	public void setQq(Integer qq) {
+		this.qq = qq;
+	}
+
+	public Integer getRank() {
 		return rank;
 	}
-	public void setRank(int rank) {
+
+	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
+
 	public int getScore() {
 		return score;
 	}

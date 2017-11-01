@@ -18,5 +18,5 @@ public interface TaskMapper {
     List<Task> findalltask();
     List<Task> findtaskbysendid(int sendid);
     List<Task> findtaskbyacceptid(int acceptid);
-
+    boolean giveup(int taskid);
 }

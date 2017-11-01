@@ -27,6 +27,7 @@ public class TaskService {
     public int update(Task pojo){
         return taskMapper.update(pojo);
     }
+    public boolean giveup(int taskid){return taskMapper.giveup(taskid);}
     public boolean delete(int taskid){
         return taskMapper.delete(taskid);
     }

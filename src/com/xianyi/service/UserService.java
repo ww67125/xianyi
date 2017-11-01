@@ -32,15 +32,13 @@ public class UserService {
 	
 	@Transactional
 	public boolean updateUser(User user){
-		if(user.getRegtime()==null){
-			user.setRegtime(new Date());
-		}
+
 		return usermapper.updateUser(user);
 	}
 	
 	@Transactional
-	public User findUserByuserid(User user){
-		return usermapper.findUserByuserid(user);
+	public User findUserByuserid(int userid){
+		return usermapper.findUserByuserid(userid);
 	}
 	
 	@Transactional

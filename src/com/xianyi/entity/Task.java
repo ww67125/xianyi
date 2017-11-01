@@ -13,6 +13,7 @@ public class Task {
     private Date addtime;
     private User senduser;
     private User acceptuser;
+    private String finishcontent;
 
     public User getSenduser() {
         return senduser;
@@ -92,6 +93,14 @@ public class Task {
 
     public void setAddtime(Date addtime) {
         this.addtime = addtime;
+    }
+
+    public String getFinishcontent() {
+        return finishcontent;
+    }
+
+    public void setFinishcontent(String finishcontent) {
+        this.finishcontent = finishcontent;
     }
 
     @Override
