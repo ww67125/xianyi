@@ -1,6 +1,7 @@
 package com.xianyi.controller;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -8,12 +9,17 @@ import javax.servlet.http.HttpSession;
 import com.xianyi.entity.*;
 import com.xianyi.service.*;
 import com.xianyi.utils.MessageHelper;
+import com.xianyi.utils.StringUtil;
 import javafx.collections.transformation.FilteredList;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -22,7 +28,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Resource
 	private UserService userService;
 	@Resource
@@ -35,20 +41,23 @@ public class UserController {
 	private TaskService taskService;
 	@Resource
 	private ShareService shareService;
-
+	@Value("${maxFileSize}")
+	private int maxFileSize;
+	@Value("${allowedFileList}")
+	private String allowedFileList;
 
 	@RequestMapping("/login")
-	public String login(User user, HttpSession session){
-		List<Friend> friend=new ArrayList<>();
-		user=userService.findUSer(user);
+	public String login(User user, HttpSession session) {
+		List<Friend> friend = new ArrayList<>();
+		user = userService.findUSer(user);
 
-		List<Gifpic> gif=new ArrayList<>();
-		gif=gifpicService.select();
-		session.setAttribute("gifs",gif);
+		List<Gifpic> gif = new ArrayList<>();
+		gif = gifpicService.select();
+		session.setAttribute("gifs", gif);
 
-		session.setAttribute("user",user);
+		session.setAttribute("user", user);
 		return "index";
-		
+
 	}
 
 	@RequestMapping("/logout")
@@ -60,18 +69,20 @@ public class UserController {
 		//重定向到用户登录页面
 		return "redirect:/user/user_login.jsp";
 	}
+
 	/*注册*/
 	@RequestMapping("/register")
-	public String register(User user,HttpServletResponse response) throws  Exception{
-		if(userService.checkUsername(user.getUsername())){
+	public String register(User user, HttpServletResponse response,HttpSession session) throws Exception {
+		if (userService.checkUsername(user.getUsername())) {
 			response.setContentType("text/html;charSet=utf-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>alert('注册失败，用户名已存在');history.back()</script>");
 			return null;    //不走正常流程了
-		}else{
-			if(userService.insertUser(user)){
-				return "index";
-			}else{
+		} else {
+			if (userService.insertUser(user)) {
+				return login(user,session);
+
+			} else {
 				return "/user/user_login";
 			}
 		}
@@ -80,21 +91,21 @@ public class UserController {
 
 	/*通过用户性别查询*/
 	@RequestMapping("/genderUserList")
-	public String  genderUserList(User user,Model model){
+	public String genderUserList(User user, Model model) {
 		List<User> genderUserList = userService.findUserByGender(user);
-		model.addAttribute("genderUserList",genderUserList);
+		model.addAttribute("genderUserList", genderUserList);
 		return "redirect:/user_genderPage";
 	}
 
 	/*更新好友列表*/
 	@RequestMapping("/findfriend")
-	public String findfriend(int userid,Model model){
+	public String findfriend(int userid, Model model) {
 
 		List<Friend> friendList = friendService.findfriend(userid);
 
 		List<User> userList = new ArrayList<User>();
 
-		for(int i=0;i<friendList.size();i++){
+		for (int i = 0; i < friendList.size(); i++) {
 
 			Friend friend = friendList.get(i);
 			User user = new User();
@@ -108,8 +119,8 @@ public class UserController {
 
 	/*由接收页面转向发送界面 发送指定好友*/
 	@RequestMapping("/indexsend")
-	public String indexsend(int indexid,Model model){
-
+	public String indexsend(int indexid, Model model,HttpSession session) {
+		indexid=(int)session.getAttribute("indexid");
 		Message message = messageService.findIndexMessage(indexid);
 		int senderid = message.getSenderid();
 
@@ -125,29 +136,30 @@ public class UserController {
 
 	/*添加用户留言 发送消息*/
 	@RequestMapping("/sendMessage")
-	public String sendMessage(Message message,HttpSession session){
+	public String sendMessage(Message message, HttpSession session) {
 
 		User user = (User) session.getAttribute("user");
 		message.setSenderid(user.getUserid());
 		messageService.insertMessage(message);
 
-		System.out.println("!!!!!!!!!!!!!!!!"+message);
+		System.out.println("!!!!!!!!!!!!!!!!" + message);
 
 		return "index";
 	}
+
 	/*用户检查是否有留言 跳转查看留言界面*/
 	@RequestMapping("checkMessageCount")
-	public String havaMessage(int userid,Model model,HttpSession session){
+	public String havaMessage(int userid, Model model, HttpSession session) {
 
 		List<Message> messageList = messageService.haveMessage(userid);
 		int count = messageList.size();
 
-		System.out.println("+++++++++++"+count);
+		System.out.println("+++++++++++" + count);
 
-		String firstMessage=null;
+		String firstMessage = null;
 
 		List<MessageHelper> messHelperList = new ArrayList<MessageHelper>();
-		for(int i=0;i<messageList.size();i++){
+		for (int i = 0; i < messageList.size(); i++) {
 
 			Message message = new Message();
 			message = messageList.get(i);
@@ -165,18 +177,18 @@ public class UserController {
 
 //			System.out.println("+++++++++++"+messageHelper.getUserid());
 //			System.out.println("+++++++++++"+messageHelper.getUsername());
-			System.out.println("+++++++++++"+messageHelper.getMessage());
+			System.out.println("+++++++++++" + messageHelper.getMessage());
 //			System.out.println("+++++++++++"+messageHelper.getSendTime());
 
 			messHelperList.add(messageHelper);
-			if(i==0){
-				firstMessage=message.getMessage();
+			if (i == 0) {
+				firstMessage = message.getMessage();
 			}
 		}
 
-		model.addAttribute("count",count);
+		model.addAttribute("count", count);
 
-		model.addAttribute("firstMessage",firstMessage);
+		model.addAttribute("firstMessage", firstMessage);
 
 /*		model.addAttribute("messHelperList", messHelperList);*/
 
@@ -188,72 +200,82 @@ public class UserController {
 
 	/*查找指定发送者的留言*/
 	@RequestMapping("/findIndexMessage")
-	public String findIndexMessage(int id,HttpSession session){
+	public String findIndexMessage(int id, HttpSession session) {
 
 		String indexMessage = null;
 
 		indexMessage = messageService.findIndexMessage(id).getMessage();
 
-		session.setAttribute("firstMessage","");
-		session.setAttribute("indexMessage",indexMessage);
+		session.setAttribute("firstMessage", "");
+		session.setAttribute("indexMessage", indexMessage);
 		session.setAttribute("indexid", id);
 		return "/user/MessageContent/right";
 	}
+
 	/*删除指定留言*/
 	@RequestMapping("/deleteMessage")
-	public String deleteMessage(int id,HttpSession session){
+	public String deleteMessage(int id, HttpSession session) {
 
 		messageService.deleteMessage(id);
 
-		List<MessageHelper> messageHelpersList =  (List<MessageHelper>) session.getAttribute("messHelperList");
+		List<MessageHelper> messageHelpersList = (List<MessageHelper>) session.getAttribute("messHelperList");
 
-		for(int i=0;i<messageHelpersList.size();i++){
-			if(messageHelpersList.get(i).getId()==id){
+		for (int i = 0; i < messageHelpersList.size(); i++) {
+			if (messageHelpersList.get(i).getId() == id) {
 				messageHelpersList.remove(i);
-				i = i-1;
+				i = i - 1;
 			}
 		}
 
 		return "redirect:user_information.jsp";
 	}
+	@RequestMapping("/indexfriendsend")
+	public String indexfriendsend(int friendid,Model model,HttpSession session){
+		List<User> userList = new ArrayList<User>();
+		User user=new User();
+		user = userService.findUserByuserid(friendid);
+		userList.add(0, user);
+		model.addAttribute("userList", userList);
+		return "/user/user_message";
+	}
+
 
 	@RequestMapping("/userinformation")
-	public String userinfomation(HttpSession session, HttpServletRequest request){
+	public String userinfomation(HttpSession session, HttpServletRequest request) {
 
 		User user = (User) session.getAttribute("user");
-		user=userService.findUserByuserid(user.getUserid());
-		session.setAttribute("user",user);
+		user = userService.findUserByuserid(user.getUserid());
+		session.setAttribute("user", user);
 		List<Friend> friendList = new ArrayList<>();
-		friendList=friendService.findfriend(user.getUserid());
+		friendList = friendService.findfriend(user.getUserid());
 
 		//1
-		request.setAttribute("friendList",friendList);
+		request.setAttribute("friendList", friendList);
 
 
 		List<Task> taskListse = taskService.findtaskbysendid(user.getUserid());
 
 		List<Task> taskListac = taskService.findtaskbyacceptid(user.getUserid());
 		//2
-		request.setAttribute("taskListse",taskListse);
-		request.setAttribute("taskListac",taskListac);
+		request.setAttribute("taskListse", taskListse);
+		request.setAttribute("taskListac", taskListac);
 
-		Share share = new Share();
-		share.setShareid(user.getUserid());
-		List<Share> shareList = shareService.select(share);
+
+		List<Share> shareList = shareService.findallsharebyuserid(user.getUserid());
 		//3
-		request.setAttribute("shareList",shareList);
+		request.setAttribute("shareList", shareList);
 
 
 		List<Message> messageList = messageService.haveMessage(user.getUserid());
 
-		String firstMessage=null;
+		String firstMessage = null;
 
 		int indexid = 0;
 
 		List<MessageHelper> messHelperList = new ArrayList<MessageHelper>();
 
 
-		for(int i=0;i<messageList.size();i++){
+		for (int i = 0; i < messageList.size(); i++) {
 
 			Message message = new Message();
 			message = messageList.get(i);
@@ -270,38 +292,142 @@ public class UserController {
 			messageHelper.setUsername(userService.findUserByuserid(user6.getUserid()).getUsername());
 
 			messHelperList.add(messageHelper);
-			if(i==0){
-				firstMessage=message.getMessage();
+			if (i == 0) {
+				firstMessage = message.getMessage();
 				indexid = message.getId();
 			}
 		}
 		//4
-		session.setAttribute("firstMessage",firstMessage);
+		session.setAttribute("firstMessage", firstMessage);
 		session.setAttribute("messHelperList", messHelperList);
-		session.setAttribute("indexid",indexid);
+		session.setAttribute("indexid", indexid);
 		return "/user/user_information";
 
 	}
+
 	//删除好友
 	@RequestMapping("deletefriend")
-	public String deletefriend(int ffid){
+	public String deletefriend(int ffid) {
 		friendService.deletefriend(ffid);
 		return "redirect:/user/userinformation";
 	}
+
 	//添加好友
 	@RequestMapping("addfriend")
-	public String addfriend(int friendid,HttpSession session){
-		Friend friend=new Friend();
-		User user=(User)session.getAttribute("user");
+	public String addfriend(int friendid, HttpSession session,HttpServletResponse response) throws IOException {
+		boolean flag=true;
+		Friend friend = new Friend();
+		User user = (User) session.getAttribute("user");
+		List<Friend> oldfriendlist=friendService.findfriend(user.getUserid());
+		for (Friend f:oldfriendlist) {
+			if (f.getFriendid()==friendid){
+				flag=false;
+			}
+		}
+		if (flag){
+			friend.setUserid(user.getUserid());
+			friend.setFriendid(friendid);
+			friendService.insert(friend);
+			return "redirect:/user/userinformation";
+		}else {
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>alert('他已经是你的好友了');location='/user/userinformation'</script>");
+			return null;
+		}
 
-		friend.setUserid(user.getUserid());
-		friend.setFriendid(friendid);
-		friendService.insert(friend);
+
+	}
+
+	//返回首页
+	@RequestMapping("back")
+	public String back(HttpSession session) {
+		User user=(User)session.getAttribute("user");
+		return login(user,session);
+	}
+	//返回各自页面
+	@RequestMapping("backself")
+	public String backself(HttpSession session){
+		User user=(User)session.getAttribute("user");
+		if (user.getGender()=="男"){
+			return "redirect:/man.jsp";
+		}else {
+			return "redirect:/woman.jsp";
+		}
+	}
+
+	//****************自定义头像上传****************
+	@RequestMapping("uploadphoto")
+	public String uploadphoto(MultipartFile file, HttpServletResponse response, HttpServletRequest request, HttpSession session) throws IOException {
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		//获取原始文件名
+		String originalFilename = file.getOriginalFilename();
+
+		//判断文件是否为空
+		if (file.getSize() == 0) {
+			out.println("<script>alert('自定义头像不能为空');history.back()</script>");
+			return null;
+		}
+
+		//判断文件的大小
+		if (file.getSize() > maxFileSize * 1024) {
+			out.println("<script>alert('文件大小不能超过" + maxFileSize + "k');history.back()</script>");
+			return null;
+		}
+
+		//获取文件的扩展名
+		String fileExtension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+
+		//判断文件的类型
+		if (!allowedFileList.contains(fileExtension)) {
+			out.println("<script>alert('只能上传" + allowedFileList + "文件');history.back()</script>");
+			return null;
+		}
+
+		//获取ServletContext对象
+		ServletContext servletContext = request.getServletContext();
+
+		//准备上传文件的存储路径
+		String serverFilePath = servletContext.getRealPath("/photo");
+		//System.out.println("serverFilePath=" + serverFilePath);
+
+		File filePath = new File(serverFilePath);
+		if (!filePath.exists()) {
+			filePath.mkdir();
+		}
+
+		//文件改名
+		String serverFileName = StringUtil.convertFilename(originalFilename);
+
+		//构造目标文件对象
+		File dest = new File(serverFilePath + "/" + serverFileName);
+
+		//文件拷贝
+		file.transferTo(dest);
+
+		//更新头像的文件名
+		User user = (User) session.getAttribute("user");
+		user.setPhoto(serverFileName);
+		userService.updateUser(user);
 		return "redirect:/user/userinformation";
 	}
 
+	/*验证码*/
+	@RequestMapping("/checkValCode")
+	@ResponseBody
+	public String checkValCode(String valCode, HttpSession session) throws Exception {
 
+		//从session属性范围中取出正确的验证码
+		String valCodeInSession = (String)session.getAttribute("valCodeInSession");
 
+		//判断输入的验证码是否正确
+		if(!valCode.equalsIgnoreCase(valCodeInSession)){
+			return "no";
+		}else{
+			return "yes";
+		}
+	}
 
 
 }

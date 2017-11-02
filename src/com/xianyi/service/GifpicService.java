@@ -3,11 +3,13 @@ package com.xianyi.service;
 import com.xianyi.entity.Gifpic;
 import com.xianyi.mapper.GifpicMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Transactional
 public class GifpicService {
 
     @Resource

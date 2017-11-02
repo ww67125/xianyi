@@ -6,8 +6,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 import com.xianyi.mapper.ShareMapper;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class ShareService {
 
     @Resource

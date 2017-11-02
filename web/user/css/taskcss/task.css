@@ -1,0 +1,126 @@
+*{
+	margin: 0 auto;
+}
+.one{
+	/*position: relative;*/
+	width: 400px;
+	height: 630px;
+	margin-top: 40px;
+	margin-left: 100px;
+	border: 1px solid black;
+	overflow: hidden;
+	float: left;
+}
+.imgleft{
+	width: 400px;
+	margin-bottom: -50px;
+}
+.imgzuocontent{
+	width: 400px;	
+}
+.imgshu{
+	width: 300px;
+	height: 450px;
+	overflow: hidden;
+	display: none;
+}
+.imgzhongcontent{
+	width: 300px;
+}
+.imgright{
+	margin-top: -50px;
+	width: 400px;
+}
+.imgyoucontent{
+	width: 400px;
+}
+
+.btdiv{
+	margin-top:-15px ;
+	margin-left:142px; ;
+}
+
+.imgleft1{
+	width: 400px;
+	margin-bottom: -50px;
+}
+.imgzuocontent{
+	width: 400px;	
+}
+.imgshu1{
+	width: 300px;
+	height: 450px;
+	overflow: hidden;
+	display: none;
+}
+.imgzhongcontent{
+	width: 300px;
+}
+.imgright1{
+	margin-top: -50px;
+	width: 400px;
+}
+.imgyoucontent{
+	width: 400px;
+}
+
+
+
+.imgleft2{
+	width: 400px;
+	margin-bottom: -50px;
+}
+.imgzuocontent{
+	width: 400px;	
+}
+.imgshu2{
+	width: 300px;
+	height: 450px;
+	overflow: hidden;
+	display: none;
+}
+.imgzhongcontent{
+	width: 300px;
+}
+.imgright2{
+	margin-top: -50px;
+	width: 400px;
+}
+.imgyoucontent{
+	width: 400px;
+}
+
+.teinput{	
+	background-image: url(../../img/juanzhou/heng.png);
+	background-repeat: no-repeat;
+	background-size: 101%;
+	max-height: 100%;
+	width: 260px;
+	height: 500px;
+	margin-left: 32px;
+	margin-top: 19px;
+	overflow: hidden;
+	border: none;
+	font-family: "微软雅黑";
+	font-size: 20px;
+}
+.addyinying{
+
+	width:238px;
+	height: 238px;
+	
+	margin-top: -237px;	
+	margin-left: 87px;
+
+}
+.addtask{	
+	width:298px;
+	height: 238px;
+	margin-top: 195px;
+	margin-left: 87px;
+
+}
+.addyinying:hover{
+	margin-top: -242px;
+	margin-left: 93px;
+}

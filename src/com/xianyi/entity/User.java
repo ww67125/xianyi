@@ -7,7 +7,7 @@ public class User {
 	private String username;
 	private String password;
 	private String gender;
-	private Integer qq;
+	private String qq;
 	private String photo;
 	private Integer rank;
 	private int score;
@@ -45,11 +45,11 @@ public class User {
 		this.photo = photo;
 	}
 
-	public Integer getQq() {
+	public String getQq() {
 		return qq;
 	}
 
-	public void setQq(Integer qq) {
+	public void setQq(String qq) {
 		this.qq = qq;
 	}
 

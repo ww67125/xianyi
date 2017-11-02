@@ -1,0 +1,104 @@
+*{
+	margin: 0 auto;
+}
+.game{
+	position: relative;
+	width: 1200px;
+	margin-top: 50px;
+}
+.divcontent{
+	position: relative;
+	width: 1200px;
+	height: 791px;
+	background-color: whitesmoke;
+	margin-top: -15px;
+}
+.onecontent{
+	position: relative;
+	width: 1200px;
+	height: 250px;
+	background-color: whitesmoke;
+	border: 1px solid darkgrey;
+	margin-top: 30px;
+}
+.textleft{
+	position: absolute;
+	right: 100px;
+	width: 190px;
+	height: 250px;
+	background-color: whitesmoke;
+	margin-right: 8px;
+}
+.pictureright{
+	position: absolute;
+	width: 900px;
+	height: 250px;
+	background-color: whitesmoke;
+}
+.twocontent{
+	position: relative;
+	width: 1200px;
+	height: 250px;
+	background-color: whitesmoke;
+	border: 1px solid darkgrey;
+	margin-top: 20px;
+}
+.textleftf{
+	position: absolute;
+	width: 900px;
+	height: 250px;
+	background-color: whitesmoke;
+	left: 300px;
+	
+}
+.picturerightf{
+	position: absolute;	
+	width: 190px;
+	height: 250px;
+
+	margin-right: -100px;
+	
+}
+.threecontent{
+	position: relative;
+	width: 1200px;
+	height: 250px;
+
+	border: 1px solid darkgrey;
+	margin-top: 20px;
+}
+.picturewoman{
+	position: relative;
+	width: 1200px;
+/*	background-color: azure;*/
+	margin-top: 50px;
+}
+.divcontentpicture{
+	position: relative;
+	width: 1200px;
+	height: 300px;
+	background-color: whitesmoke;
+}
+.ig{
+	width: 23px;
+	height: 23px;
+	border-radius: 10px;
+}
+#talk{
+	position: relative;
+	width: 1200px;
+	height: 450px;
+	background-color: whitesmoke;
+	margin-top: 50px;
+}#talkfix{
+	position: fixed;
+	width: 1200px;
+	height: 350px;
+	top: 356px;
+}
+.talkban{
+	position: relative;
+	width: 1200px;
+	height: 360px;
+	background-color: #E8E8E8;
+}

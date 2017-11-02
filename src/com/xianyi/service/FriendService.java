@@ -9,6 +9,7 @@ import com.xianyi.mapper.FriendMapper;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class FriendService {
 
     @Resource
